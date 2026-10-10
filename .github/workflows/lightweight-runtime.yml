@@ -1,0 +1,31 @@
+name: Lightweight runtime checks
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**/*.py"
+      - "requirements.txt"
+      - ".github/workflows/lightweight-runtime.yml"
+  workflow_dispatch:
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install lightweight dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy scikit-learn xgboost pandas matplotlib
+
+      - name: Run non-TensorFlow experiments
+        run: python tools/run_lightweight_smoke.py
