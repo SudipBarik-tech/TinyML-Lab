@@ -50,8 +50,13 @@ This repository is a hands-on academic workspace for studying how machine-learni
 | 33 | Spiking Neural Network | ✅ | ✅ |
 | 34 | Recurrent Neural Network | ✅ | ✅ |
 | 35 | Liquid-Inspired Recurrent Network | ✅ | ✅ |
+| 36 | Causal Decision Tree | ✅ | ✅ |
+| 37 | Tiny Generative Adversarial Network | ✅ | ✅ |
+| 38 | ANFIS | ✅ | ✅ |
+| 39 | Quantile Regression Neural Network | ✅ | ✅ |
+| 40 | Self-Organising Map | ✅ | ✅ |
 
-Each implemented experiment contains a technical README, reproducible Python code and an Arduino-compatible embedded example. Classical models export fitted parameters or reference data directly to compact C/C++ headers. Neural experiments use TensorFlow Lite or INT8 TensorFlow Lite where appropriate. Advanced experiments are deliberately kept small so their embedded feasibility can be inspected rather than assumed.
+Each experiment contains a technical README, reproducible Python code and an Arduino-compatible embedded example. Classical models export fitted parameters or reference data directly to compact C/C++ headers. Neural experiments use direct weight export, TensorFlow Lite or INT8 TensorFlow Lite where appropriate.
 
 ## Experimental workflow
 
@@ -109,13 +114,18 @@ TinyML-Lab/
 ├── 33-spiking-neural-network/
 ├── 34-recurrent-neural-network/
 ├── 35-liquid-neural-network/
+├── 36-causal-decision-tree/
+├── 37-generative-adversarial-network/
+├── 38-anfis/
+├── 39-quantile-regression-neural-network/
+├── 40-self-organising-map/
 ├── docs/
 ├── requirements.txt
 ├── .gitignore
 └── README.md
 ```
 
-A typical implemented experiment contains:
+A typical experiment contains:
 
 ```text
 experiment-name/
@@ -133,11 +143,9 @@ The KAN experiment is intentionally a compact **KAN-inspired** basis-function cl
 
 Experiment 32 uses **MC dropout as a Bayesian approximation** for uncertainty analysis; its embedded path is deterministic inference. Experiment 35 is a **liquid-inspired leaky recurrent model** with neuron-specific time constants rather than a claim of a full external LTC implementation.
 
+Experiment 36 is an educational treatment-effect tree built on randomized synthetic data, not a replacement for a complete causal-inference study. Experiment 37 deploys only a small GAN generator rather than attempting adversarial training on-device. Experiment 38 uses a transparent first-order Sugeno ANFIS formulation. Experiment 39 predicts three quantiles with a compact dense network. Experiment 40 exports only the trained SOM prototype grid for embedded nearest-prototype inference.
+
 Not every advanced architecture is naturally suitable for direct deployment on a microcontroller. For such models, deployment feasibility is part of the experiment itself.
-
-## Remaining roadmap
-
-Causal Decision Tree, Generative Adversarial Network, ANFIS, Quantile Regression Neural Network and Self-Organising Map.
 
 ## Reproducibility
 
@@ -152,12 +160,16 @@ pip install -r requirements.txt
 Then run an experiment from the repository root, for example:
 
 ```bash
-python 34-recurrent-neural-network/train.py
+python 40-self-organising-map/train.py
 ```
 
 TensorFlow is required for the neural-network workflows. Experiments 22 and 23 additionally use TensorFlow Model Optimization for quantization-aware training and pruning.
 
 Hardware timing, RAM and flash measurements should be reported only after the corresponding sketch is built and measured on the target board.
+
+## Project status
+
+The initial 40-experiment implementation roadmap is complete. The next stage is validation: run the Python training scripts, compile representative embedded sketches on the selected boards, compare desktop and device outputs, and add measured memory and latency results.
 
 ## Academic use
 
