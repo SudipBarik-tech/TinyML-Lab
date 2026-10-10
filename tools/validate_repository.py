@@ -44,7 +44,7 @@ EXPECTED = {
     34: "34-recurrent-neural-network",
     35: "35-liquid-neural-network",
     36: "36-causal-decision-tree",
-    37: "37-gan",
+    37: "37-generative-adversarial-network",
     38: "38-anfis",
     39: "39-quantile-regression-neural-network",
     40: "40-self-organising-map",
