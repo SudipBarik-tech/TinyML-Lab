@@ -35,7 +35,9 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 model = tf.keras.Sequential([
     tf.keras.layers.Input(shape=(TIMESTEPS, FEATURES)),
-    tf.keras.layers.SimpleRNN(12, activation="tanh"),
+    # Unrolling avoids dynamic TensorList operations and keeps conversion simpler
+    # for small fixed-length TinyML sequences.
+    tf.keras.layers.SimpleRNN(12, activation="tanh", unroll=True),
     tf.keras.layers.Dense(1, activation="sigmoid"),
 ])
 model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
