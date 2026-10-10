@@ -12,8 +12,9 @@ This document records what has actually been checked for the current TinyML-Lab 
 | Training/export contract between `train.py` and local Arduino model header | Passed |
 | Non-TensorFlow training/export workflows | 28/28 passed |
 | TensorFlow/TFLite training/export workflows | 12/12 passed |
+| Host-side C++ syntax check for non-TFLM embedded examples | 28/28 passed |
 | Legacy repository path / stale source-branding scan | Passed |
-| Arduino/ESP32 compilation | Pending hardware/toolchain validation |
+| Actual Arduino/ESP32 toolchain compilation | Pending |
 | Desktop-to-device prediction equivalence | Pending hardware validation |
 | Flash, RAM and inference-latency measurements | Pending hardware validation |
 
@@ -29,6 +30,8 @@ Three GitHub Actions workflows are used during validation.
 
 `lightweight-runtime.yml` installs NumPy, scikit-learn, XGBoost, pandas and matplotlib, then executes every non-TensorFlow experiment. The current suite executes 28 training/export scripts and requires each process to finish successfully.
 
+After those exporters run, `tools/compile_embedded_stubs.py` performs a host-side C++17 syntax check on the 28 corresponding embedded sketches using a small compatibility stub for common Arduino functions. This catches C/C++ syntax and generated-header integration errors without pretending to be a full Arduino board compilation.
+
 ### TensorFlow runtime checks
 
 `tensorflow-runtime.yml` installs TensorFlow and TensorFlow Model Optimization and executes the remaining 12 neural-network workflows. This includes training and the model-export step used by each experiment.
@@ -42,14 +45,17 @@ The CI pass was useful because it exposed problems that a visual code review wou
 1. The K-Means C-header exporter contained an invalid Python f-string expression. The exporter was rewritten to build the centre rows before formatting the header.
 2. XGBoost changed the serialized representation of `base_score` to a bracketed value in the tested release. The regression exporter now parses the numeric value defensively.
 3. The original fixed-length LSTM conversion produced dynamic TensorList operations that could not be lowered to a built-in-only TFLite model. The LSTM is now explicitly unrolled for the fixed sequence length, allowing the INT8 conversion workflow to complete.
+4. The embedded host checker was expanded to model Arduino's `PI`, formatted `Serial.print/println`, `randomSeed` and `random` interfaces before using host compilation as a meaningful syntax gate.
 
-After these corrections, the static suite, the 28 lightweight runtime workflows and all 12 TensorFlow/TFLite workflows complete successfully in GitHub Actions.
+After these corrections, the static suite, all 28 lightweight runtime workflows, all 12 TensorFlow/TFLite workflows, and all 28 non-TFLM host-side embedded syntax checks complete successfully in GitHub Actions.
 
 ## What "passed" means
 
 A successful desktop runtime check means that the experiment can create its dataset, train or fit the intended model, calculate its reported desktop metric, and complete its export step without a Python runtime error in the CI environment.
 
 For experiments that produce C/C++ headers, the generated data or functions are created by the training script. For TensorFlow experiments, the check also covers TensorFlow Lite conversion where that conversion is part of the experiment.
+
+A successful host-side embedded syntax check means that a non-TFLM sketch and its generated header are valid under a C++17 syntax compilation with common Arduino API calls represented by stubs. It is an additional consistency check, not a substitute for `arduino-cli` or a real ESP32/Arduino build.
 
 This does **not** mean that every generated model has already been flashed to a microcontroller.
 
@@ -79,6 +85,12 @@ Non-TensorFlow runtime checks:
 
 ```bash
 python tools/run_lightweight_smoke.py
+```
+
+After the non-TensorFlow exporters have generated their headers, run the host-side embedded syntax checks with:
+
+```bash
+python tools/compile_embedded_stubs.py
 ```
 
 TensorFlow runtime checks require the dependencies from `requirements.txt` and can be run with:
