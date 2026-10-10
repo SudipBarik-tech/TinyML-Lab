@@ -19,6 +19,10 @@ ARDUINO_STUB = r'''
 #include <cstdint>
 #include <limits>
 
+#ifndef PI
+#define PI 3.1415926535897932384626433832795
+#endif
+
 class SerialStub {
 public:
   void begin(unsigned long) {}
@@ -26,8 +30,14 @@ public:
   template <typename T>
   void print(const T&) {}
 
+  template <typename T, typename U>
+  void print(const T&, const U&) {}
+
   template <typename T>
   void println(const T&) {}
+
+  template <typename T, typename U>
+  void println(const T&, const U&) {}
 
   void println() {}
 };
@@ -37,6 +47,12 @@ static SerialStub Serial;
 inline void delay(unsigned long) {}
 inline unsigned long millis() { return 0UL; }
 inline unsigned long micros() { return 0UL; }
+inline void randomSeed(unsigned long) {}
+inline long random(long upper) { return upper > 0 ? 0L : 0L; }
+inline long random(long lower, long upper) {
+  (void)upper;
+  return lower;
+}
 '''
 
 
