@@ -174,9 +174,11 @@ Hardware timing, RAM and flash measurements should be reported only after the co
 
 ## Project status
 
-The complete 40-experiment desktop workflow has now been validated in GitHub Actions. Static structure and syntax checks pass, all **28 non-TensorFlow training/export scripts** execute successfully, and all **12 TensorFlow/TFLite training/export scripts** execute successfully.
+The complete 40-experiment desktop workflow has been validated in GitHub Actions. Static structure and Python syntax checks pass, all **28 non-TensorFlow training/export scripts** execute successfully, and all **12 TensorFlow/TFLite training/export scripts** execute successfully.
 
-The remaining stage is target-device validation: compile representative sketches with the selected ESP32/Arduino toolchains, compare desktop and device predictions, and measure flash, RAM and inference latency on real hardware.
+The 28 non-TFLM Arduino examples have also been regenerated and compiled successfully with Arduino CLI using the generic ESP32 target (`esp32:esp32:esp32`) and Espressif Arduino core **3.3.12**.
+
+The remaining validation work is limited to the 12 TensorFlow Lite Micro sketches with a selected TFLM/Arduino package, followed by physical-board testing for prediction equivalence, flash/RAM use and inference latency.
 
 ## Academic use
 
