@@ -40,8 +40,13 @@ This repository is a hands-on academic workspace for studying how machine-learni
 | 23 | Post-Training Pruning | ✅ | ✅ |
 | 24 | Knowledge Distillation | ✅ | ✅ |
 | 25 | Micro MobileNet | ✅ | ✅ |
+| 26 | Multinomial Naive Bayes | ✅ | ✅ |
+| 27 | Compact KAN-Inspired Classifier | ✅ | ✅ |
+| 28 | Linear Discriminant Analysis | ✅ | ✅ |
+| 29 | Radial Basis Function Network | ✅ | ✅ |
+| 30 | Tiny Graph Convolutional Network | ✅ | ✅ |
 
-Each implemented experiment contains a technical README, reproducible Python code and an Arduino-compatible embedded example. Classical models export fitted parameters or reference data directly to compact C/C++ headers. Neural experiments use TensorFlow Lite or INT8 TensorFlow Lite where appropriate, while Q-Learning exports a compact learned policy table.
+Each implemented experiment contains a technical README, reproducible Python code and an Arduino-compatible embedded example. Classical models export fitted parameters or reference data directly to compact C/C++ headers. Neural experiments use TensorFlow Lite or INT8 TensorFlow Lite where appropriate. Advanced experiments are deliberately kept small so their embedded feasibility can be inspected rather than assumed.
 
 ## Experimental workflow
 
@@ -50,8 +55,8 @@ Each implemented experiment contains a technical README, reproducible Python cod
 3. train and evaluate the model in Python;
 4. reduce model complexity where required;
 5. export the fitted model to lightweight C/C++ logic, lookup data or TensorFlow Lite;
-6. verify device-side predictions;
-7. record accuracy, memory, latency and practical limitations.
+6. compare embedded inference with the desktop model;
+7. record accuracy, memory, latency and practical limitations after target-device validation.
 
 ## Target platforms
 
@@ -89,6 +94,11 @@ TinyML-Lab/
 ├── 23-post-training-pruning/
 ├── 24-knowledge-distillation/
 ├── 25-micro-mobilenet/
+├── 26-multinomial-naive-bayes/
+├── 27-kan/
+├── 28-lda/
+├── 29-rbf-network/
+├── 30-gcn/
 ├── docs/
 ├── requirements.txt
 ├── .gitignore
@@ -107,25 +117,23 @@ experiment-name/
 
 Training scripts generate the compact model headers or model files required by the corresponding embedded sketches.
 
-## Roadmap
+## Notes on advanced models
 
-### Embedded ML Fundamentals
-Decision Tree, Random Forest, XGBoost, Gaussian Naive Bayes, Support Vector Machine, SEFR, PCA, Logistic Regression, K-Means, Linear Regression, Gaussian Mixture Model, Poisson Regression, KNN, Elastic Net, Huber Regression and Multinomial Naive Bayes.
+The KAN experiment is intentionally a compact **KAN-inspired** basis-function classifier rather than a reproduction of a third-party KAN package. The GCN experiment uses a small fixed graph and a NumPy implementation so that graph normalisation, message aggregation and weight export remain transparent.
+
+Not every advanced architecture is naturally suitable for direct deployment on a microcontroller. For such models, deployment feasibility is part of the experiment itself.
+
+## Remaining roadmap
 
 ### Tiny Neural Networks
-Multilayer Perceptron, CNN, LSTM, Autoencoder and RNN.
-
-### TinyML Optimisation
-Quantization-Aware Training, post-training pruning, knowledge distillation and compact MobileNet-style architectures.
+Recurrent Neural Network.
 
 ### Advanced Edge-AI Experiments
-Q-Learning, Kolmogorov-Arnold Networks, LDA, RBF networks, GCNs, Neural Additive Models, Bayesian Neural Networks, Spiking Neural Networks, Liquid Neural Networks, Causal Decision Trees, GANs, ANFIS, Quantile Regression Neural Networks and Self-Organising Maps.
-
-Not every advanced architecture is naturally suitable for direct deployment on a microcontroller. In those cases, deployment feasibility itself is part of the experiment.
+Neural Additive Model, Bayesian Neural Network, Spiking Neural Network, Liquid Neural Network, Causal Decision Tree, Generative Adversarial Network, ANFIS, Quantile Regression Neural Network and Self-Organising Map.
 
 ## Reproducibility
 
-The implemented examples use fixed random seeds and explicit model constraints. Generated model headers are produced from fitted Python models rather than being manually copied into embedded code.
+The examples use fixed random seeds and explicit model constraints wherever practical. Generated model headers are produced from fitted Python models rather than being manually copied into embedded code.
 
 Install the current Python dependencies with:
 
@@ -136,10 +144,12 @@ pip install -r requirements.txt
 Then run an experiment from the repository root, for example:
 
 ```bash
-python 22-quantization-aware-training/train.py
+python 29-rbf-network/train.py
 ```
 
 TensorFlow is required for the neural-network workflows. Experiments 22 and 23 additionally use TensorFlow Model Optimization for quantization-aware training and pruning.
+
+Hardware timing, RAM and flash measurements should be reported only after the corresponding sketch is built and measured on the target board.
 
 ## Academic use
 
