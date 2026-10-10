@@ -1,7 +1,6 @@
 from pathlib import Path
 import json
 import re
-import numpy as np
 from sklearn.datasets import make_regression
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 from sklearn.model_selection import train_test_split
@@ -40,6 +39,9 @@ print("RMSE:", round(float(rmse), 4))
 
 booster = model.get_booster()
 trees = booster.get_dump(dump_format="json")
+config = json.loads(booster.save_config())
+base_score_text = config["learner"]["learner_model_param"]["base_score"]
+base_score = float(base_score_text)
 
 
 def emit_node(node, indent="  "):
@@ -55,20 +57,20 @@ def emit_node(node, indent="  "):
     yes_node = children[node["yes"]]
     no_node = children[node["no"]]
 
-    s = f"{indent}if (x[{feature_index}] < {threshold:.9f}f) {{\n"
-    s += emit_node(yes_node, indent + "  ")
-    s += f"{indent}}} else {{\n"
-    s += emit_node(no_node, indent + "  ")
-    s += f"{indent}}}\n"
-    return s
+    code = f"{indent}if (x[{feature_index}] < {threshold:.9f}f) {{\n"
+    code += emit_node(yes_node, indent + "  ")
+    code += f"{indent}}} else {{\n"
+    code += emit_node(no_node, indent + "  ")
+    code += f"{indent}}}\n"
+    return code
 
 functions = []
 for i, tree_json in enumerate(trees):
     tree = json.loads(tree_json)
-    body = emit_node(tree, "  ")
-    functions.append(f"inline float xgbTree{i}(const float *x) {{\n{body}}}\n")
+    functions.append(
+        f"inline float xgbTree{i}(const float *x) {{\n{emit_node(tree, '  ')}}}\n"
+    )
 
-base_score = float(booster.attr("base_score") or np.mean(y_train))
 aggregate = [f"  float y = {base_score:.9f}f;"]
 for i in range(len(trees)):
     aggregate.append(f"  y += xgbTree{i}(x);")
@@ -77,4 +79,5 @@ aggregate.append("  return y;")
 header = "#pragma once\n\n" + "\n".join(functions)
 header += "\ninline float xgbRegress(const float *x) {\n" + "\n".join(aggregate) + "\n}\n"
 OUT.write_text(header, encoding="utf-8")
+print("Base score:", base_score)
 print(f"Exported embedded model to {OUT}")
