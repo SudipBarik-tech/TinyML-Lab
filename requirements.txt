@@ -4,5 +4,6 @@ matplotlib
 scikit-learn
 xgboost
 tensorflow
+tensorflow-model-optimization
 jupyter
 notebook
