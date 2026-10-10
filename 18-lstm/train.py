@@ -29,7 +29,9 @@ y_train, y_test = y[tr], y[te]
 
 model = tf.keras.Sequential([
     tf.keras.layers.Input(shape=(STEPS, FEATURES)),
-    tf.keras.layers.LSTM(12),
+    # The sequence length is fixed, so unrolling avoids dynamic TensorList
+    # operations that are difficult to lower to a built-in-only TFLite model.
+    tf.keras.layers.LSTM(12, unroll=True),
     tf.keras.layers.Dense(CLASSES, activation="softmax"),
 ])
 model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
@@ -37,9 +39,11 @@ model.fit(X_train, y_train, epochs=10, batch_size=32, verbose=0, validation_spli
 loss, acc = model.evaluate(X_test, y_test, verbose=0)
 print("Test accuracy:", round(float(acc), 4))
 
+
 def representative_dataset():
     for sample in X_train[:150]:
         yield [sample[np.newaxis, ...].astype(np.float32)]
+
 
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
 converter.optimizations = [tf.lite.Optimize.DEFAULT]
