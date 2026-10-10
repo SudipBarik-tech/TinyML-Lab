@@ -35,8 +35,13 @@ This repository is a hands-on academic workspace for studying how machine-learni
 | 18 | LSTM Sequence Classifier | ✅ | ✅ |
 | 19 | Autoencoder Anomaly Detection | ✅ | ✅ |
 | 20 | Q-Learning | ✅ | ✅ |
+| 21 | Huber Regression | ✅ | ✅ |
+| 22 | Quantization-Aware Training | ✅ | ✅ |
+| 23 | Post-Training Pruning | ✅ | ✅ |
+| 24 | Knowledge Distillation | ✅ | ✅ |
+| 25 | Micro MobileNet | ✅ | ✅ |
 
-Each implemented experiment contains a technical README, reproducible Python code and an Arduino-compatible embedded example. Classical models export fitted parameters or reference data directly to compact C/C++ headers. Neural experiments use INT8 TensorFlow Lite models where appropriate, while Q-Learning exports a compact learned policy table.
+Each implemented experiment contains a technical README, reproducible Python code and an Arduino-compatible embedded example. Classical models export fitted parameters or reference data directly to compact C/C++ headers. Neural experiments use TensorFlow Lite or INT8 TensorFlow Lite where appropriate, while Q-Learning exports a compact learned policy table.
 
 ## Experimental workflow
 
@@ -79,6 +84,11 @@ TinyML-Lab/
 ├── 18-lstm/
 ├── 19-autoencoder/
 ├── 20-q-learning/
+├── 21-huber-regression/
+├── 22-quantization-aware-training/
+├── 23-post-training-pruning/
+├── 24-knowledge-distillation/
+├── 25-micro-mobilenet/
 ├── docs/
 ├── requirements.txt
 ├── .gitignore
@@ -106,7 +116,7 @@ Decision Tree, Random Forest, XGBoost, Gaussian Naive Bayes, Support Vector Mach
 Multilayer Perceptron, CNN, LSTM, Autoencoder and RNN.
 
 ### TinyML Optimisation
-Quantisation-Aware Training, post-training pruning, knowledge distillation and compact MobileNet-style architectures.
+Quantization-Aware Training, post-training pruning, knowledge distillation and compact MobileNet-style architectures.
 
 ### Advanced Edge-AI Experiments
 Q-Learning, Kolmogorov-Arnold Networks, LDA, RBF networks, GCNs, Neural Additive Models, Bayesian Neural Networks, Spiking Neural Networks, Liquid Neural Networks, Causal Decision Trees, GANs, ANFIS, Quantile Regression Neural Networks and Self-Organising Maps.
@@ -126,10 +136,10 @@ pip install -r requirements.txt
 Then run an experiment from the repository root, for example:
 
 ```bash
-python 18-lstm/train.py
+python 22-quantization-aware-training/train.py
 ```
 
-TensorFlow is required for the CNN, LSTM and autoencoder workflows because these experiments perform model training, INT8 conversion and TensorFlow Lite export.
+TensorFlow is required for the neural-network workflows. Experiments 22 and 23 additionally use TensorFlow Model Optimization for quantization-aware training and pruning.
 
 ## Academic use
 
