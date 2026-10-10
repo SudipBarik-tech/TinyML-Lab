@@ -1,116 +1,130 @@
 # TinyML Lab
 
-A practical repository for studying **Tiny Machine Learning, embedded inference and edge AI** on resource-constrained devices.
+Practical experiments in **embedded machine learning, TinyML and resource-efficient AI**.
 
-This repository is being organised as a hands-on learning and experimentation space maintained by **Sudip Barik**. The aim is not only to train machine-learning models, but also to understand how those models can be simplified, converted and deployed on microcontrollers and embedded platforms.
+This repository is maintained as a hands-on academic workspace for studying how machine-learning models move from desktop training environments to constrained embedded devices. The focus is on reproducibility, compact implementations, deployment constraints and measurable embedded performance.
 
-## What this repository covers
+## Scope
 
-The experiments are grouped around four themes:
+The repository is organised into four tracks:
 
-- classical machine-learning models for embedded inference
-- dimensionality reduction and lightweight feature processing
-- neural networks for TinyML
-- model compression, optimisation and deployment
+### 1. Embedded ML Fundamentals
+Decision Tree, Random Forest, XGBoost, Gaussian Naive Bayes, Support Vector Machine, SEFR, PCA, Logistic Regression, K-Means, Linear Regression, Gaussian Mixture Model, Poisson Regression, KNN, Elastic Net and Huber Regression.
 
-## Experiment roadmap
+### 2. Tiny Neural Networks
+Multilayer Perceptron, CNN, LSTM, Autoencoder and RNN implementations aimed at compact inference workflows.
 
-| No. | Experiment | Focus |
-|---:|---|---|
-| 01 | Decision Tree | lightweight rule-based classification |
-| 02 | Random Forest | ensemble classification and regression |
-| 03 | XGBoost Classifier | boosted-tree inference |
-| 04 | Gaussian Naive Bayes | probabilistic classification |
-| 05 | Support Vector Machine | margin-based classification |
-| 06 | SEFR Classifier | compact binary classification |
-| 07 | Principal Component Analysis | feature reduction |
-| 08 | Logistic Regression | compact linear classification |
-| 09 | K-Means | unsupervised clustering |
-| 10 | Linear Regression | numerical prediction |
-| 11 | Gaussian Mixture Model | probabilistic clustering |
-| 12 | Multilayer Perceptron | basic neural inference |
-| 13 | Convolutional Neural Network | compact spatial feature learning |
-| 14 | XGBoost Regression | boosted-tree regression |
-| 15 | Poisson Regression | count-data modelling |
-| 16 | K-Nearest Neighbours | instance-based classification |
-| 17 | Elastic Net | regularised regression |
-| 18 | LSTM | sequence modelling |
-| 19 | Autoencoder | representation learning |
-| 20 | Q-Learning | lightweight reinforcement learning |
-| 21 | Huber Regression | robust regression |
-| 22 | Quantisation-Aware Training | low-precision neural inference |
-| 23 | Post-Training Pruning | reducing model complexity |
-| 24 | Knowledge Distillation | transferring knowledge to smaller models |
-| 25 | Micro MobileNet | compact convolutional architecture |
-| 26 | Multinomial Naive Bayes | lightweight text classification |
-| 27 | Kolmogorov-Arnold Network | compact nonlinear modelling |
-| 28 | Linear Discriminant Analysis | dimensionality reduction and classification |
-| 29 | Radial Basis Function Network | nonlinear function approximation |
-| 30 | Graph Convolutional Network | graph-based learning |
-| 31 | Neural Additive Model | interpretable neural modelling |
-| 32 | Bayesian Neural Network | uncertainty-aware inference |
-| 33 | Spiking Neural Network | event-driven neural computation |
-| 34 | Recurrent Neural Network | sequential inference |
-| 35 | Liquid Neural Network | adaptive temporal modelling |
-| 36 | Causal Decision Tree | causal structure and decision learning |
-| 37 | Generative Adversarial Network | compact generative modelling |
-| 38 | ANFIS | neuro-fuzzy inference |
-| 39 | Quantile Regression Neural Network | uncertainty and interval estimation |
-| 40 | Self-Organising Map | unsupervised topology learning |
+### 3. Model Optimisation for TinyML
+Quantisation-Aware Training, post-training pruning, knowledge distillation and compact MobileNet-style architectures.
 
-## Typical workflow
+### 4. Advanced Edge-AI Experiments
+Q-Learning, Kolmogorov-Arnold Networks, LDA, RBF networks, GCNs, Neural Additive Models, Bayesian Neural Networks, Spiking Neural Networks, Liquid Neural Networks, Causal Decision Trees, GANs, ANFIS, Quantile Regression Neural Networks and Self-Organising Maps.
 
-Each experiment is being structured around the same practical pipeline:
+These advanced experiments are included as exploratory edge-AI studies. Not every architecture is naturally suitable for direct deployment on a microcontroller, so deployment feasibility is treated as part of the experiment rather than assumed in advance.
 
-1. prepare or generate the dataset;
-2. train and evaluate the model in Python;
-3. simplify or convert the trained model where required;
-4. implement or export the inference logic for the target device;
-5. verify embedded predictions against the desktop model;
-6. record memory, latency and deployment observations.
+## Experimental workflow
+
+Each experiment should answer the same practical questions:
+
+1. What problem is being solved?
+2. What dataset or input representation is used?
+3. How is the model trained and evaluated?
+4. Can the model be simplified, compressed or exported?
+5. Can inference run on a constrained target?
+6. What are the memory, latency and accuracy trade-offs?
+
+Where embedded deployment is practical, the experiment will include both desktop-side model development and device-side inference code.
 
 ## Target platforms
 
-The repository is intended for experiments using platforms such as:
+Primary targets include:
 
-- ESP32 / ESP32-S3
+- ESP32 and ESP32-S3
 - Arduino-compatible microcontrollers
 - TensorFlow Lite for Microcontrollers
-- Python / Jupyter for training and validation
+- Python and Jupyter for training, testing and model conversion
 
-Hardware requirements vary between experiments. Individual experiment folders will contain their own setup notes.
+Hardware and library requirements are documented inside each experiment folder.
 
-## Repository structure
+## Repository layout
 
 ```text
-TinyML-main/
-├── 01_decision_tree/
-├── 02_random_forest/
-├── 03_xgboost/
+TinyML-Lab/
+├── 01-decision-tree/
+├── 02-random-forest/
+├── 03-xgboost/
 ├── ...
-├── 40_self_organising_map/
 ├── docs/
+├── requirements.txt
+├── .gitignore
 └── README.md
 ```
 
-The internal structure will be kept consistent wherever possible:
+A standard experiment is organised as:
 
 ```text
-experiment_name/
-├── README.md          # objective, method, steps and observations
-├── notebook/          # model development / training
-├── embedded/          # microcontroller inference code
-├── data/              # small reusable datasets where appropriate
-└── results/           # plots, screenshots or measured outputs
+experiment-name/
+├── README.md
+├── notebook/
+├── embedded/
+├── data/
+└── results/
 ```
 
-## Status
+The experiment README should document the objective, method, training process, deployment approach, expected output, measured results, limitations and references.
 
-This repository is under active restructuring. Experiments are being reviewed one by one before they are added so that the code, documentation, naming and explanations remain consistent across the repository.
+## Experiment index
+
+| No. | Experiment | Track |
+|---:|---|---|
+| 01 | Decision Tree | Embedded ML |
+| 02 | Random Forest | Embedded ML |
+| 03 | XGBoost Classifier | Embedded ML |
+| 04 | Gaussian Naive Bayes | Embedded ML |
+| 05 | Support Vector Machine | Embedded ML |
+| 06 | SEFR Classifier | Embedded ML |
+| 07 | Principal Component Analysis | Embedded ML |
+| 08 | Logistic Regression | Embedded ML |
+| 09 | K-Means | Embedded ML |
+| 10 | Linear Regression | Embedded ML |
+| 11 | Gaussian Mixture Model | Embedded ML |
+| 12 | Multilayer Perceptron | Tiny Neural Network |
+| 13 | Convolutional Neural Network | Tiny Neural Network |
+| 14 | XGBoost Regression | Embedded ML |
+| 15 | Poisson Regression | Embedded ML |
+| 16 | K-Nearest Neighbours | Embedded ML |
+| 17 | Elastic Net | Embedded ML |
+| 18 | LSTM | Tiny Neural Network |
+| 19 | Autoencoder | Tiny Neural Network |
+| 20 | Q-Learning | Advanced Edge AI |
+| 21 | Huber Regression | Embedded ML |
+| 22 | Quantisation-Aware Training | TinyML Optimisation |
+| 23 | Post-Training Pruning | TinyML Optimisation |
+| 24 | Knowledge Distillation | TinyML Optimisation |
+| 25 | Micro MobileNet | TinyML Optimisation |
+| 26 | Multinomial Naive Bayes | Embedded ML |
+| 27 | Kolmogorov-Arnold Network | Advanced Edge AI |
+| 28 | Linear Discriminant Analysis | Advanced Edge AI |
+| 29 | Radial Basis Function Network | Advanced Edge AI |
+| 30 | Graph Convolutional Network | Advanced Edge AI |
+| 31 | Neural Additive Model | Advanced Edge AI |
+| 32 | Bayesian Neural Network | Advanced Edge AI |
+| 33 | Spiking Neural Network | Advanced Edge AI |
+| 34 | Recurrent Neural Network | Tiny Neural Network |
+| 35 | Liquid Neural Network | Advanced Edge AI |
+| 36 | Causal Decision Tree | Advanced Edge AI |
+| 37 | Generative Adversarial Network | Advanced Edge AI |
+| 38 | ANFIS | Advanced Edge AI |
+| 39 | Quantile Regression Neural Network | Advanced Edge AI |
+| 40 | Self-Organising Map | Advanced Edge AI |
+
+## Reproducibility
+
+Experiments will be added only after their code, dependencies, file names and documentation have been reviewed. Where possible, results will include accuracy or error measures together with deployment-oriented measurements such as model size, RAM use and inference latency.
 
 ## Academic use
 
-The material is intended for learning, laboratory work and reproducible experimentation in **TinyML, IoT and embedded AI**. Students are encouraged to understand the workflow and reproduce the results rather than use the repository as a copy-and-submit solution.
+The repository is intended for teaching, laboratory practice and reproducible experimentation. Students should use the material to understand the complete workflow and reproduce the experiments rather than submit repository content directly as assessed work.
 
 ## Maintainer
 
@@ -120,6 +134,6 @@ Techno International New Town, Kolkata
 
 [GitHub](https://github.com/SudipBarik-tech) · [LinkedIn](https://www.linkedin.com/in/sudip-barik/) · [Google Scholar](https://scholar.google.com/citations?user=qBOJ6w4AAAAJ&hl=en) · [ORCID](https://orcid.org/0000-0002-1284-5575)
 
-## Source and attribution note
+## References and attribution
 
-Some topics in this learning roadmap were inspired by publicly available TinyML examples and academic resources. Any third-party code, datasets or assets retained in an experiment will be identified in that experiment's documentation. The repository README and new implementations are being written and maintained independently for this project.
+This repository is being rebuilt as an independently maintained academic implementation. External papers, datasets, libraries, code fragments or other third-party material used in an experiment will be credited in that experiment's documentation. Existing third-party license or attribution requirements will be retained where applicable.
