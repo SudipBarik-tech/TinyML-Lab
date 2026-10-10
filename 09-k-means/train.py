@@ -11,13 +11,14 @@ def export_header(model: KMeans, output: Path):
     rows = []
     for row in centers:
         rows.append("{" + ", ".join(f"{v:.8f}f" for v in row) + "}")
+    rows_text = ",\n  ".join(rows)
 
     text = f"""#pragma once
 
 const int KMEANS_CLUSTER_COUNT = {centers.shape[0]};
 const int KMEANS_FEATURE_COUNT = {centers.shape[1]};
 const float KMEANS_CENTERS[KMEANS_CLUSTER_COUNT][KMEANS_FEATURE_COUNT] = {{
-  {',\n  '.join(rows)}
+  {rows_text}
 }};
 
 inline int kmeans_predict(const float *x) {{
