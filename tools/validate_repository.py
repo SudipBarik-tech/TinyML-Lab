@@ -101,13 +101,45 @@ def validate_structure(errors: list[str]) -> None:
 
 def validate_python(errors: list[str]) -> None:
     files = sorted(ROOT.glob("[0-9][0-9]-*/train.py"))
+    syntax_failures = 0
     for path in files:
         try:
             py_compile.compile(str(path), doraise=True)
         except py_compile.PyCompileError as exc:
+            syntax_failures += 1
             fail(errors, f"Python syntax error in {path.relative_to(ROOT)}: {exc.msg}")
-    if len(files) == 40 and not any("syntax error" in e.lower() for e in errors):
+    if len(files) != 40:
+        fail(errors, f"Expected 40 training scripts, found {len(files)}")
+    elif syntax_failures == 0:
         ok("All 40 training scripts pass Python syntax compilation")
+
+
+def validate_export_contracts(errors: list[str]) -> None:
+    mismatches = 0
+    for folder_name in EXPECTED.values():
+        folder = ROOT / folder_name
+        train = folder / "train.py"
+        embedded = folder / "embedded"
+        if not train.exists() or not embedded.is_dir():
+            continue
+
+        train_text = train.read_text(encoding="utf-8", errors="ignore")
+        generated_headers = set(
+            re.findall(r"[\"']([A-Za-z0-9_.-]+\.h)[\"']", train_text)
+        )
+
+        for ino in embedded.glob("*.ino"):
+            ino_text = ino.read_text(encoding="utf-8", errors="ignore")
+            local_headers = set(re.findall(r'#include\s+"([^\"]+\.h)"', ino_text))
+            if local_headers and generated_headers.isdisjoint(local_headers):
+                mismatches += 1
+                fail(
+                    errors,
+                    f"{folder_name}: {ino.name} includes {sorted(local_headers)} but train.py "
+                    f"does not reference the same generated header",
+                )
+    if mismatches == 0:
+        ok("Training exporters and Arduino local-header includes are consistent")
 
 
 def validate_text(errors: list[str]) -> None:
@@ -147,6 +179,7 @@ def main() -> int:
     print("TinyML-Lab static repository validation\n")
     validate_structure(errors)
     validate_python(errors)
+    validate_export_contracts(errors)
     validate_text(errors)
     validate_root_docs(errors)
 
