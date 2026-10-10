@@ -20,8 +20,13 @@ This repository is a hands-on academic workspace for studying how machine-learni
 | 03 | XGBoost Classifier | ✅ | ✅ |
 | 04 | Gaussian Naive Bayes | ✅ | ✅ |
 | 05 | Linear Support Vector Machine | ✅ | ✅ |
+| 06 | SEFR Classifier | ✅ | ✅ |
+| 07 | Principal Component Analysis | ✅ | ✅ |
+| 08 | Logistic Regression | ✅ | ✅ |
+| 09 | K-Means Clustering | ✅ | ✅ |
+| 10 | Linear Regression | ✅ | ✅ |
 
-Each of these experiments contains an independently written Python training script, a compact model exporter and an Arduino-compatible inference example.
+Each implemented experiment contains its own technical README, reproducible Python code and an Arduino-compatible embedded example. Where appropriate, the training script exports fitted parameters directly to a compact C/C++ header.
 
 ## Experimental workflow
 
@@ -49,6 +54,11 @@ TinyML-Lab/
 ├── 03-xgboost/
 ├── 04-gaussian-naive-bayes/
 ├── 05-support-vector-machine/
+├── 06-sefr/
+├── 07-pca/
+├── 08-logistic-regression/
+├── 09-k-means/
+├── 10-linear-regression/
 ├── docs/
 ├── requirements.txt
 ├── .gitignore
@@ -85,7 +95,7 @@ Not every advanced architecture is naturally suitable for direct deployment on a
 
 ## Reproducibility
 
-The implemented examples use fixed random seeds and explicit model constraints. Generated model headers are produced from the fitted Python models rather than being manually copied into the embedded code.
+The implemented examples use fixed random seeds and explicit model constraints. Generated model headers are produced from fitted Python models rather than being manually copied into embedded code.
 
 Install the current Python dependencies with:
 
@@ -96,7 +106,7 @@ pip install -r requirements.txt
 Then run an experiment from the repository root, for example:
 
 ```bash
-python 01-decision-tree/train.py
+python 08-logistic-regression/train.py
 ```
 
 ## Academic use
