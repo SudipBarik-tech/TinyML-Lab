@@ -45,6 +45,11 @@ This repository is a hands-on academic workspace for studying how machine-learni
 | 28 | Linear Discriminant Analysis | ✅ | ✅ |
 | 29 | Radial Basis Function Network | ✅ | ✅ |
 | 30 | Tiny Graph Convolutional Network | ✅ | ✅ |
+| 31 | Neural Additive Model | ✅ | ✅ |
+| 32 | Bayesian NN via MC Dropout | ✅ | ✅ |
+| 33 | Spiking Neural Network | ✅ | ✅ |
+| 34 | Recurrent Neural Network | ✅ | ✅ |
+| 35 | Liquid-Inspired Recurrent Network | ✅ | ✅ |
 
 Each implemented experiment contains a technical README, reproducible Python code and an Arduino-compatible embedded example. Classical models export fitted parameters or reference data directly to compact C/C++ headers. Neural experiments use TensorFlow Lite or INT8 TensorFlow Lite where appropriate. Advanced experiments are deliberately kept small so their embedded feasibility can be inspected rather than assumed.
 
@@ -99,6 +104,11 @@ TinyML-Lab/
 ├── 28-lda/
 ├── 29-rbf-network/
 ├── 30-gcn/
+├── 31-neural-additive-model/
+├── 32-bayesian-neural-network/
+├── 33-spiking-neural-network/
+├── 34-recurrent-neural-network/
+├── 35-liquid-neural-network/
 ├── docs/
 ├── requirements.txt
 ├── .gitignore
@@ -119,17 +129,15 @@ Training scripts generate the compact model headers or model files required by t
 
 ## Notes on advanced models
 
-The KAN experiment is intentionally a compact **KAN-inspired** basis-function classifier rather than a reproduction of a third-party KAN package. The GCN experiment uses a small fixed graph and a NumPy implementation so that graph normalisation, message aggregation and weight export remain transparent.
+The KAN experiment is intentionally a compact **KAN-inspired** basis-function classifier rather than a reproduction of a third-party KAN package. The GCN experiment uses a small fixed graph and a NumPy implementation so graph normalisation, message aggregation and weight export remain transparent.
+
+Experiment 32 uses **MC dropout as a Bayesian approximation** for uncertainty analysis; its embedded path is deterministic inference. Experiment 35 is a **liquid-inspired leaky recurrent model** with neuron-specific time constants rather than a claim of a full external LTC implementation.
 
 Not every advanced architecture is naturally suitable for direct deployment on a microcontroller. For such models, deployment feasibility is part of the experiment itself.
 
 ## Remaining roadmap
 
-### Tiny Neural Networks
-Recurrent Neural Network.
-
-### Advanced Edge-AI Experiments
-Neural Additive Model, Bayesian Neural Network, Spiking Neural Network, Liquid Neural Network, Causal Decision Tree, Generative Adversarial Network, ANFIS, Quantile Regression Neural Network and Self-Organising Map.
+Causal Decision Tree, Generative Adversarial Network, ANFIS, Quantile Regression Neural Network and Self-Organising Map.
 
 ## Reproducibility
 
@@ -144,7 +152,7 @@ pip install -r requirements.txt
 Then run an experiment from the repository root, for example:
 
 ```bash
-python 29-rbf-network/train.py
+python 34-recurrent-neural-network/train.py
 ```
 
 TensorFlow is required for the neural-network workflows. Experiments 22 and 23 additionally use TensorFlow Model Optimization for quantization-aware training and pruning.
