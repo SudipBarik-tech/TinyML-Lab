@@ -30,8 +30,13 @@ This repository is a hands-on academic workspace for studying how machine-learni
 | 13 | Compact 1D CNN | ✅ | ✅ |
 | 14 | XGBoost Regression | ✅ | ✅ |
 | 15 | Poisson Regression | ✅ | ✅ |
+| 16 | K-Nearest Neighbours | ✅ | ✅ |
+| 17 | Elastic Net Regression | ✅ | ✅ |
+| 18 | LSTM Sequence Classifier | ✅ | ✅ |
+| 19 | Autoencoder Anomaly Detection | ✅ | ✅ |
+| 20 | Q-Learning | ✅ | ✅ |
 
-Each implemented experiment contains a technical README, reproducible Python code and an Arduino-compatible embedded example. Where appropriate, the training script exports fitted parameters directly to a compact C/C++ header. The CNN experiment uses an INT8 TensorFlow Lite model and TensorFlow Lite for Microcontrollers.
+Each implemented experiment contains a technical README, reproducible Python code and an Arduino-compatible embedded example. Classical models export fitted parameters or reference data directly to compact C/C++ headers. Neural experiments use INT8 TensorFlow Lite models where appropriate, while Q-Learning exports a compact learned policy table.
 
 ## Experimental workflow
 
@@ -39,7 +44,7 @@ Each implemented experiment contains a technical README, reproducible Python cod
 2. prepare a reproducible training dataset;
 3. train and evaluate the model in Python;
 4. reduce model complexity where required;
-5. export the fitted model to lightweight C/C++ logic or TensorFlow Lite;
+5. export the fitted model to lightweight C/C++ logic, lookup data or TensorFlow Lite;
 6. verify device-side predictions;
 7. record accuracy, memory, latency and practical limitations.
 
@@ -69,6 +74,11 @@ TinyML-Lab/
 ├── 13-cnn/
 ├── 14-xgboost-regression/
 ├── 15-poisson-regression/
+├── 16-knn/
+├── 17-elastic-net/
+├── 18-lstm/
+├── 19-autoencoder/
+├── 20-q-learning/
 ├── docs/
 ├── requirements.txt
 ├── .gitignore
@@ -116,10 +126,10 @@ pip install -r requirements.txt
 Then run an experiment from the repository root, for example:
 
 ```bash
-python 12-mlp/train.py
+python 18-lstm/train.py
 ```
 
-For the CNN experiment, TensorFlow is required because the workflow performs model training, INT8 conversion and TensorFlow Lite export.
+TensorFlow is required for the CNN, LSTM and autoencoder workflows because these experiments perform model training, INT8 conversion and TensorFlow Lite export.
 
 ## Academic use
 
