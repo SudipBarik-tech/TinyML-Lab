@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Generated model and build artefacts
+*.tflite
+*.onnx
+*.h5
+*.keras
+*.bin
+build/
+dist/
+
+# Temporary data and logs
+*.log
+*.tmp
