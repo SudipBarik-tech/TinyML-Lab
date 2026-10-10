@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "**/*.py"
+      - "**/*.ino"
       - "requirements.txt"
       - ".github/workflows/lightweight-runtime.yml"
   workflow_dispatch:
@@ -29,3 +30,6 @@ jobs:
 
       - name: Run non-TensorFlow experiments
         run: python tools/run_lightweight_smoke.py
+
+      - name: Syntax-check generated embedded C++ examples
+        run: python tools/compile_embedded_stubs.py
