@@ -50,11 +50,11 @@ EXPECTED = {
     40: "40-self-organising-map",
 }
 
-FORBIDDEN_MARKERS = (
-    "thommaskevin",
-    "thommas kevin",
-    "tinyml-main/",
-)
+# Split the legacy strings so the validator does not flag its own source file.
+OLD_LOGIN = "thommas" + "kevin"
+OLD_NAME = "thommas" + " kevin"
+OLD_ROOT = "tinyml-" + "main/"
+FORBIDDEN_MARKERS = (OLD_LOGIN, OLD_NAME, OLD_ROOT)
 
 TEXT_SUFFIXES = {".py", ".ino", ".h", ".hpp", ".md", ".txt", ".yml", ".yaml"}
 
@@ -123,11 +123,11 @@ def validate_text(errors: list[str]) -> None:
             continue
         for marker in FORBIDDEN_MARKERS:
             if marker in text:
-                findings.append(f"{path.relative_to(ROOT)} contains '{marker}'")
+                findings.append(f"{path.relative_to(ROOT)} contains a legacy source marker")
     for finding in findings:
         fail(errors, finding)
     if not findings:
-        ok("No stale upstream branding or old TinyML-main path found")
+        ok("No stale upstream branding or legacy repository path found")
 
 
 def validate_root_docs(errors: list[str]) -> None:
