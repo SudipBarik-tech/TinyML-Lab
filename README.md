@@ -120,6 +120,9 @@ TinyML-Lab/
 ├── 39-quantile-regression-neural-network/
 ├── 40-self-organising-map/
 ├── docs/
+│   ├── EXPERIMENT_TEMPLATE.md
+│   └── VALIDATION.md
+├── tools/
 ├── requirements.txt
 ├── .gitignore
 └── README.md
@@ -165,11 +168,15 @@ python 40-self-organising-map/train.py
 
 TensorFlow is required for the neural-network workflows. Experiments 22 and 23 additionally use TensorFlow Model Optimization for quantization-aware training and pruning.
 
+Repository-wide automated checks are available under `.github/workflows/`. The detailed validation scope and remaining hardware checks are documented in [`docs/VALIDATION.md`](docs/VALIDATION.md).
+
 Hardware timing, RAM and flash measurements should be reported only after the corresponding sketch is built and measured on the target board.
 
 ## Project status
 
-The initial 40-experiment implementation roadmap is complete. The next stage is validation: run the Python training scripts, compile representative embedded sketches on the selected boards, compare desktop and device outputs, and add measured memory and latency results.
+The complete 40-experiment desktop workflow has now been validated in GitHub Actions. Static structure and syntax checks pass, all **28 non-TensorFlow training/export scripts** execute successfully, and all **12 TensorFlow/TFLite training/export scripts** execute successfully.
+
+The remaining stage is target-device validation: compile representative sketches with the selected ESP32/Arduino toolchains, compare desktop and device predictions, and measure flash, RAM and inference latency on real hardware.
 
 ## Academic use
 
