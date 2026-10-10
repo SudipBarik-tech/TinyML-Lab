@@ -25,8 +25,13 @@ This repository is a hands-on academic workspace for studying how machine-learni
 | 08 | Logistic Regression | ✅ | ✅ |
 | 09 | K-Means Clustering | ✅ | ✅ |
 | 10 | Linear Regression | ✅ | ✅ |
+| 11 | Gaussian Mixture Model | ✅ | ✅ |
+| 12 | Multilayer Perceptron | ✅ | ✅ |
+| 13 | Compact 1D CNN | ✅ | ✅ |
+| 14 | XGBoost Regression | ✅ | ✅ |
+| 15 | Poisson Regression | ✅ | ✅ |
 
-Each implemented experiment contains its own technical README, reproducible Python code and an Arduino-compatible embedded example. Where appropriate, the training script exports fitted parameters directly to a compact C/C++ header.
+Each implemented experiment contains a technical README, reproducible Python code and an Arduino-compatible embedded example. Where appropriate, the training script exports fitted parameters directly to a compact C/C++ header. The CNN experiment uses an INT8 TensorFlow Lite model and TensorFlow Lite for Microcontrollers.
 
 ## Experimental workflow
 
@@ -34,7 +39,7 @@ Each implemented experiment contains its own technical README, reproducible Pyth
 2. prepare a reproducible training dataset;
 3. train and evaluate the model in Python;
 4. reduce model complexity where required;
-5. export the fitted model to lightweight C/C++ logic;
+5. export the fitted model to lightweight C/C++ logic or TensorFlow Lite;
 6. verify device-side predictions;
 7. record accuracy, memory, latency and practical limitations.
 
@@ -59,6 +64,11 @@ TinyML-Lab/
 ├── 08-logistic-regression/
 ├── 09-k-means/
 ├── 10-linear-regression/
+├── 11-gaussian-mixture-model/
+├── 12-mlp/
+├── 13-cnn/
+├── 14-xgboost-regression/
+├── 15-poisson-regression/
 ├── docs/
 ├── requirements.txt
 ├── .gitignore
@@ -75,7 +85,7 @@ experiment-name/
     └── *_demo.ino
 ```
 
-Training scripts generate the compact model headers required by the corresponding embedded sketches.
+Training scripts generate the compact model headers or model files required by the corresponding embedded sketches.
 
 ## Roadmap
 
@@ -106,8 +116,10 @@ pip install -r requirements.txt
 Then run an experiment from the repository root, for example:
 
 ```bash
-python 08-logistic-regression/train.py
+python 12-mlp/train.py
 ```
+
+For the CNN experiment, TensorFlow is required because the workflow performs model training, INT8 conversion and TensorFlow Lite export.
 
 ## Academic use
 
