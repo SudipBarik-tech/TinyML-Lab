@@ -1,0 +1,43 @@
+name: TensorFlow runtime checks
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "13-cnn/**"
+      - "18-lstm/**"
+      - "19-autoencoder/**"
+      - "22-quantization-aware-training/**"
+      - "23-post-training-pruning/**"
+      - "24-knowledge-distillation/**"
+      - "25-micro-mobilenet/**"
+      - "31-neural-additive-model/**"
+      - "32-bayesian-neural-network/**"
+      - "34-recurrent-neural-network/**"
+      - "37-generative-adversarial-network/**"
+      - "39-quantile-regression-neural-network/**"
+      - "tools/run_tensorflow_smoke.py"
+      - ".github/workflows/tensorflow-runtime.yml"
+  workflow_dispatch:
+
+jobs:
+  tensorflow-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install TensorFlow dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy scikit-learn tensorflow tensorflow-model-optimization
+
+      - name: Run TensorFlow experiments
+        run: python tools/run_tensorflow_smoke.py
