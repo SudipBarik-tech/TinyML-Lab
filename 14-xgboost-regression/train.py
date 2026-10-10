@@ -40,8 +40,11 @@ print("RMSE:", round(float(rmse), 4))
 booster = model.get_booster()
 trees = booster.get_dump(dump_format="json")
 config = json.loads(booster.save_config())
-base_score_text = config["learner"]["learner_model_param"]["base_score"]
-base_score = float(base_score_text)
+base_score_text = str(config["learner"]["learner_model_param"]["base_score"])
+base_match = re.search(r"[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?", base_score_text)
+if base_match is None:
+    raise ValueError(f"Could not parse XGBoost base score: {base_score_text!r}")
+base_score = float(base_match.group(0))
 
 
 def emit_node(node, indent="  "):
